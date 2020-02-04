@@ -9,7 +9,7 @@ git:
   submodules:
     false
 before_install:
-  - gem install fastlane --no-ri --no-rdoc --no-document
+  - gem install fastlane --no-document
   - echo -e "machine bitbucket.org\n  login $BITBUCKET_USER_NAME\n  password $BITBUCKET_USER_PASSWORD" >~/.netrc
   - git submodule update --init --recursive
 
