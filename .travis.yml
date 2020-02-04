@@ -1,0 +1,23 @@
+language: objective-c
+osx_image: xcode11
+notifications:
+  email: false
+branches:
+  only:
+    - master
+git:
+  submodules:
+    false
+before_install:
+  - gem install fastlane --no-ri --no-rdoc --no-document
+  - echo -e "machine bitbucket.org\n  login $BITBUCKET_USER_NAME\n  password $BITBUCKET_USER_PASSWORD" >~/.netrc
+  - git submodule update --init --recursive
+
+jobs:
+  include:
+    - stage: Swiflint
+      script:
+        - ./Pods/SwiftLint/swiftlint --reporter junit
+    - stage: XCTest
+      script:
+        - fastlane scan
