@@ -11,13 +11,15 @@ git:
 before_install:
   - gem install fastlane --no-document
   - echo -e "machine bitbucket.org\n  login $BITBUCKET_USER_NAME\n  password $BITBUCKET_USER_PASSWORD" >~/.netrc
-  - git submodule update --init --recursive
+  - git submodule add https://bitbucket.org/happaning/happaning_rc1.git
 
 jobs:
   include:
     - stage: Swiflint
       script:
+        - cd happaning_rc1
         - ./Pods/SwiftLint/swiftlint --reporter junit
     - stage: XCTest
       script:
+        - cd happaning_rc1
         - fastlane scan
