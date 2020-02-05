@@ -5,6 +5,7 @@ notifications:
 branches:
   only:
     - master
+    - development
 git:
   submodules:
     false
@@ -15,11 +16,26 @@ before_install:
 
 jobs:
   include:
-    - stage: Swiflint
+    - stage: Swiflint-Prod
+      if: "(branch = master)"
       script:
         - cd happaning_rc1
         - ./Pods/SwiftLint/swiftlint --reporter junit
-    - stage: XCTest
+    - stage: Swiflint-Dev
+      if: "(branch = development)"
       script:
         - cd happaning_rc1
+        - git checkout development
+        - git pull
+        - ./Pods/SwiftLint/swiftlint --reporter junit
+    - stage: XCTest-Prod
+    if: "(branch = master)"
+      script:
+        - cd happaning_rc1
+        - fastlane scan
+    if: "(branch = development)"
+      script:
+        - cd happaning_rc1
+        - git checkout development
+        - git pull
         - fastlane scan
