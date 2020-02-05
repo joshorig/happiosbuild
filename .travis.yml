@@ -17,23 +17,23 @@ before_install:
 jobs:
   include:
     - stage: Swiflint-Prod
-      if: "(branch = master)"
+      if: branch = master
       script:
         - cd happaning_rc1
         - ./Pods/SwiftLint/swiftlint --reporter junit
     - stage: Swiflint-Dev
-      if: "(branch = development)"
+      if: branch = development
       script:
         - cd happaning_rc1
         - git checkout development
         - git pull
         - ./Pods/SwiftLint/swiftlint --reporter junit
     - stage: XCTest-Prod
-    if: "(branch = master)"
+    if: branch = master
       script:
         - cd happaning_rc1
         - fastlane scan
-    if: "(branch = development)"
+    if: branch = development
       script:
         - cd happaning_rc1
         - git checkout development
